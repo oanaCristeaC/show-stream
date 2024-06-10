@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ImageCarouselIndicator from '@/components/carousels/image-carousel-indicator.vue'
-import { Direction } from '@/models/direction'
+import { DirectionEnum } from '@/enums/direction-enum'
 import ImageNotAvailable from '@/components/image-not-available.vue'
 import { ref } from 'vue'
 
@@ -50,14 +50,14 @@ const scrollLeft = () => {
 
 <template>
   <div class="relative flex items-center">
-    <image-carousel-indicator :direction="Direction.Left" @navigate-direction="scrollLeft" />
+    <image-carousel-indicator :direction="DirectionEnum.Left" @navigate-direction="scrollLeft" />
     <div class="flex overflow-x-auto scroll-smooth scrollbar-hide" ref="carouselContainer">
       <div class="flex-none w-64 h-36 mr-2 flex-shrink-0" v-for="item in items" :key="item.id">
         <image-not-available v-if="!item.image" class="w-full h-full object-cover rounded" />
         <img :src="item.image" :alt="item.title" class="w-full h-full object-cover rounded" />
       </div>
     </div>
-    <image-carousel-indicator :direction="Direction.Right" @navigate-direction="scrollRight" />
+    <image-carousel-indicator :direction="DirectionEnum.Right" @navigate-direction="scrollRight" />
   </div>
 </template>
 

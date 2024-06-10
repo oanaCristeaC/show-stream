@@ -1,9 +1,7 @@
-<svg width="300" height="100" xmlns="http://www.w3.org/2000/svg">
-    <!-- Background Rectangle -->
-    <rect width="300" height="100" fill="#FFFFFF"/>
+<svg width="320" height="100" xmlns="http://www.w3.org/2000/svg">
 
     <!-- Text "ShowStream" -->
-    <text x="50%" y="50%" font-family="Arial, Helvetica, sans-serif" font-size="40" fill="#E50914" font-weight="bold" dominant-baseline="middle" text-anchor="middle">
+    <text x="50%" y="50%" font-family="Arial, Helvetica, sans-serif" font-size="45" fill="#E50914" font-weight="bold" dominant-baseline="middle" text-anchor="middle">
         ShowStream
     </text>
 </svg>
