@@ -27,6 +27,14 @@ export interface ShowModel {
 }
 
 export type ShowInfo = Pick<ShowModel, 'id' | 'name' | 'type' | 'genres' | 'rating'>
+// export interface ShowInfo {
+//     id: number;
+//     name: string;
+//     type: string;
+//     genres: ShowGenresEnum[] | [];
+//     rating: RatingsModel;
+//
+// }
 
 type ShowScheduleModel = {
     time: string;
