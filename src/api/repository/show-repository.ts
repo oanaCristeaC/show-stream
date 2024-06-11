@@ -1,11 +1,10 @@
-import type {ShowInfo, ShowModel} from "@/models/show-model";
+import type {ShowInfo, ShowModel, ShowsByGenreModel} from "@/models/show-model";
 import {BaseRepository} from "@/api/repository/base-repository";
 import Dexie, {type EntityTable} from 'dexie';
 import {db} from "@/database/indexDB";
 
-
 export class ShowRepository extends BaseRepository {
-    private db: Dexie & {  showInfo: EntityTable<ShowInfo, "id">; }
+    private db: Dexie & { showInfo: EntityTable<ShowInfo, "id">; }
 
     constructor() {
         super();
@@ -17,17 +16,18 @@ export class ShowRepository extends BaseRepository {
             console.log('fetchShows')
             const response = await this.fetchApi(`/shows?page=${page}`);
 
-            if (response.ok) {
-                return await response.json();
+            if (!response.ok) {
+               return null;
             }
 
-            return null
+            return await response.json();
 
         } catch (error) {
-
+            // log the error to a logging service: "Error fetching shows from API:", error
             return null;
         }
     }
+
     public async addShowInfoOnBulk(showInfoBulk: ShowInfo[] | null): Promise<void> {
 
         if (showInfoBulk === null) {
@@ -36,38 +36,54 @@ export class ShowRepository extends BaseRepository {
         try {
             await this.db.showInfo.bulkPut(showInfoBulk);
         } catch (error) {
-            // log the error to a logging service
+            // log the error to a logging service: "Error adding show info to Dexie:", error
         }
     }
 
     public async getShowInfo(db: IDBDatabase, showInfoId: number): Promise<ShowInfo | null> {
         try {
-            const showInfo =  await this.db.showInfo.get(showInfoId) ;
+            const showInfo = await this.db.showInfo.get(showInfoId);
 
             return (showInfo === undefined) ? null : showInfo;
 
         } catch (error) {
-            // log the error to a logging service
-
+            // log the error to a logging service: "Error fetching show info from Dexie:", error
             return null;
         }
     }
 
-    public async checkAndFetchDataIfNeeded() {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to zero for accurate comparison
+ public async getShowsGroupedByGenre(): Promise<ShowsByGenreModel | null> {
+    try {
+        const showInfo = await db.showInfo.where('genres').notEqual('').toArray();
 
-        await this.db.showInfo.where('createdAt').aboveOrEqual(today).count().then(count => {
-            if (count > 0) {
-                // Records inserted today exist in Dexie, no need to fetch from API
-                console.log("Records inserted today exist in Dexie, no API fetch needed.");
-            } else {
-                // No records inserted today, proceed with API fetch
-                console.log("No records inserted today in Dexie, fetch from API.");
-                // Your API fetch logic here
+        return showInfo.reduce((acc: ShowsByGenreModel, showInfo: ShowInfo) => {
+
+            // todo: I deed to consider all genres to a show and not only the first one
+            if (!acc[showInfo.genres[0]]) {
+                acc[showInfo.genres[0]] = [];
             }
-        }).catch(error => {
-            console.error("Error checking Dexie for records inserted today:", error);
-        });
+            acc[showInfo.genres[0]].push(showInfo);
+            return acc;
+        }, {});
+    } catch (error) {
+        // log the error to a logging service: console.error('Error fetching shows by genre:', error);
+        return null;
     }
+}
+
+    public async isDbDataInsertedToday(): Promise<boolean>{
+
+        const today = new Date();
+
+        // Set hours, minutes, seconds, and milliseconds to zero for accurate comparison
+        today.setHours(0, 0, 0, 0);
+
+        // if there are records inserted today, return true
+        return this.db.showInfo.where('createdAt').aboveOrEqual(today).count().then(count => count > 0)
+            .catch(error => {
+                // log the error to a logging service: "Error checking Dexie for records inserted today:", error
+                return false;
+            });
+    }
+
 }

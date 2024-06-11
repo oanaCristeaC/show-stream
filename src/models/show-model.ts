@@ -26,15 +26,7 @@ export interface ShowModel {
     _links: ShowLinksModel;
 }
 
-export type ShowInfo = Pick<ShowModel, 'id' | 'name' | 'type' | 'genres' | 'rating'>
-// export interface ShowInfo {
-//     id: number;
-//     name: string;
-//     type: string;
-//     genres: ShowGenresEnum[] | [];
-//     rating: RatingsModel;
-//
-// }
+export type ShowInfo = Pick<ShowModel, 'id' | 'name' | 'type' | 'genres' | 'rating'| 'image'>
 
 type ShowScheduleModel = {
     time: string;
@@ -42,7 +34,7 @@ type ShowScheduleModel = {
 }
 
 type RatingsModel = {
-    average: number;
+    average: number | null;
 }
 
 type ShowNetworkModel = {
@@ -77,4 +69,8 @@ type ShowLinksModel = {
     previousepisode: {
         href: string | null;
     }
+}
+
+export interface ShowsByGenreModel {
+    [genres: string]: ShowInfo[];
 }

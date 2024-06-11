@@ -10,6 +10,4 @@ db.version(1).stores({
     showInfo: '++id, name, type, genres, rating, createdAt' // primary key "id" (for the runtime!)
 });
 
-
-
 export { db };
