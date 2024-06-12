@@ -2,6 +2,7 @@
 import * as yup from 'yup'
 import {ref} from "vue";
 import {debounce} from "@/utilities/debounce";
+import router from "@/router";
 
 const suggestions = ref<yup.InferType<any>>([])
 const query = ref<string>('')
@@ -24,6 +25,8 @@ const onInput = (event: Event) => {
 const selectSuggestion = (suggestion: any) => {
   query.value = suggestion.name
   suggestions.value = []
+
+  router.push({name: 'show-details', params: {showId: suggestion.id}})
 }
 
 const debouncedOnInput = debounce(onInput, 100)
