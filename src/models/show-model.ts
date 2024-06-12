@@ -18,7 +18,7 @@ export interface ShowModel {
     weight: number;
     network: ShowNetworkModel;
     webChannel: WebChannelModel | null;
-    dvdCountry: string | null; // validate that this is correct
+    dvdCountry: string | null;
     externals: ShowExternalsModel;
     image: ShowImageModel;
     summary: string;

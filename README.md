@@ -1,24 +1,13 @@
 # show-stream
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
 
 ## Project Setup
 
 ```sh
 npm install
 ```
+
+I used npm v: 9.6.7 and node v: v20.3.1
 
 ### Compile and Hot-Reload for Development
 
@@ -37,9 +26,39 @@ npm run build
 ```sh
 npm run test:unit
 ```
+Unfortunately I didn't have time to implements test :( 
 
 ### Lint with [ESLint](https://eslint.org/)
 
 ```sh
 npm run lint
 ```
+
+I have used the following libraries:
+- [Vue 3](https://v3.vuejs.org/)
+- [Vite](https://vitejs.dev/):  build in tool for Vue 3
+- [Tailwind CSS](https://tailwindcss.com/) 
+  - I haven't use it in long time, so I wanted to refresh my memory
+- [Vue Router](https://next.router.vuejs.org/)
+- [Vue Use](https://vueuse.org/)
+- [Vue i18n](https://vue-i18n.intlify.dev/)
+  - I wanted to use locale in the app but due to time constraints I didn't have time to implement it
+- [Vue Test Utils](https://next.vue-test-utils.vuejs.org/)
+  - I wanted to use it for testing components but due to time constraints I didn't have time to implement it
+- [ESLint](https://eslint.org/)
+  - I havent got time to configure it properly
+- [Prettier](https://prettier.io/)
+  - same as ESLint
+
+
+I used the following:
+    - repository pattern to interact with data
+    - services to interact with the API and process business logic
+    - components to display the data
+        - I have tried to create reusable components, but I have not been able to do it as much as I would like
+    - router to navigate between pages
+    - store to manage the state of the application (pina)
+
+I havent gotten time to implement tests, I wanted to use Vue Test Utils and Vitest to test the components and services.
+
+Note: as the api didnt give possibility to search and filter I use IndexDb and in memory data

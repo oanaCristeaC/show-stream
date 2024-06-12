@@ -17,7 +17,7 @@ const allShowsByGenre = computed(() => store.allShowsInfoByGenera as ShowInfoDBM
 const getGenera = router.currentRoute.value.params.genera
 
 onMounted(async () => {
-  await store.getAllShowsInfo(ShowGenresEnum.CRIME, page.value, limit.value)
+  await store.getAllShowsInfo(getGenera as ShowGenresEnum , page.value, limit.value)
 })
 
 const redirectToShowDetails = (showId: number) => {
@@ -30,7 +30,7 @@ const toObject = (data: any) => {
 
 const loadMore = async () => {
   page.value++
-  await store.getAllShowsInfo(ShowGenresEnum.CRIME, page.value, limit.value)
+  await store.getAllShowsInfo(getGenera as ShowGenresEnum, page.value, limit.value)
 }
 
 </script>
