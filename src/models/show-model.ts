@@ -29,6 +29,16 @@ export interface ShowModel {
 
 export type ShowInfo = Pick<ShowModel, 'id' | 'name' | 'type' | 'genres' | 'rating'| 'image'>
 
+export type ShowInfoDBModel = {
+    id: number;
+    name: string;
+    type: string;
+    genres: string;
+    rating: string;
+    image: string;
+
+}
+
 type ShowScheduleModel = {
     time: string;
     days: string[];

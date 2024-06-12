@@ -19,6 +19,12 @@ const router = createRouter({
           path: '/shows/:showId',
           component: () => import('@/views/show-details-view.vue')
         }
+        ,
+        {
+          name: 'shows-genera',
+          path: '/shows/genera/:genera',
+          component: () => import('@/views/shows-genera-view.vue')
+        }
       ]
     }
   ]

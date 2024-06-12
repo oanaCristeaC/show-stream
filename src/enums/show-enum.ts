@@ -6,7 +6,8 @@ export enum ShowGenresEnum {
     HORROR = 'horror',
     MYSTERY = 'mystery',
     ROMANCE = 'romance',
-    THRILLER = 'thriller'
+    THRILLER = 'thriller',
+    CRIME = 'crime',
 }
 
 export enum ShowStatusEnum {

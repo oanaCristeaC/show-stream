@@ -24,7 +24,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div>
+  <!-- todo: if error: check the error type and show the appropriated error message or component -->
+  <!-- todo:  create placeholders for the images and the summary when date is not yet available -->
     <div class="container mx-auto p-4">
       <div class="flex flex-col lg:flex-row">
 
@@ -56,6 +57,8 @@ onMounted(async () => {
           </div>
         </div>
 
+<!--        todo: refactor this part to a component-->
+
         <!-- Show Info -->
         <div class="lg:w-1/3 p-4 bg-gray-100 rounded-lg shadow-lg">
           <h2 class="text-2xl font-bold mb-4">Show Info</h2>
@@ -66,9 +69,7 @@ onMounted(async () => {
           <p v-if="showDetails?.status"><strong>Status:</strong> {{ showDetails.status }}</p>
           <p v-if="showDetails?.type"><strong>Show Type:</strong> {{ showDetails?.type }}</p>
           <p v-if="showDetails?.genres?.length"><strong>Genres:</strong> {{ showDetails?.genres.join(' | ') }}</p>
-
-<!--          <p v-if=""><strong>Episodes ordered:</strong> 8 episodes</p>-->
-
+          <p v-if="showEpisodeList?.length > 0"><strong>Episodes ordered:</strong> {{ showEpisodeList?.length }} episodes</p>
           <p v-if="showDetails?.officialSite"><strong>Official site:</strong> <a href="https://www.amazon.com" class="text-blue-500">www.amazon.com</a>
           </p>
           <div class="mt-4">
@@ -81,6 +82,8 @@ onMounted(async () => {
           </div>
         </div>
       </div>
+
+      <!--        todo: refactor this part to a component-->
       <!-- Previous Episodes -->
       <div class="mt-8" v-if="showEpisodeList?.length > 0">
         <h2 class="text-2xl font-bold mb-4">Previous Episodes</h2>
@@ -106,5 +109,4 @@ onMounted(async () => {
         </table>
       </div>
     </div>
-  </div>
 </template>
