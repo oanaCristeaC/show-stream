@@ -1,18 +1,17 @@
 import {defineStore} from "pinia";
 import {ShowService} from "@/api/service/show-service";
-import type {ShowInfo, ShowsByGenreModel} from "@/models/show-model";
+import type { ShowsByGenreModel} from "@/models/show-model";
+
 
 export const useShowsInfoStore = defineStore('showsInfo', {
-    getters: {
-        getShowsInfo: async (): Promise<ShowInfo[] | null> =>  {
-            const showService = new ShowService()
-            const showsInfo = await showService.getRecursivelyShowsInfo()
+    state: () => ({
+        showsByGenre: null as ShowsByGenreModel | null,
+        showService: new ShowService()
+    }),
+    actions: {
 
-            return showsInfo // slice??
+        async getShowsByGenre(): Promise<void>  {
+            this.showsByGenre = await this.showService.getShowsInfoFromMemoryGroupedByGenre()
         },
-        getShowsByGenre: async (): Promise<ShowsByGenreModel | null> => {
-            const showService = new ShowService() // todo: refactor to use a singleton
-            return await showService.getShowsInfoFromMemoryGroupedByGenre()
-        }
     },
 })

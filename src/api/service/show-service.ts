@@ -1,6 +1,7 @@
 import {ShowRepository} from "@/api/repository/show-repository";
 import type {ShowInfo, ShowModel, ShowsByGenreModel} from "@/models/show-model";
 import {insertInSortedOrder} from "@/utilities/show-info";
+import type {EpisodeModel} from "@/models/episode-model";
 
 export class ShowService {
     private showRepository: ShowRepository;
@@ -146,6 +147,14 @@ export class ShowService {
 
     public async getShowsInfoFromDb() {
         return await this.showRepository.getShowsGroupedByGenre();
+    }
+
+    public async getShowInfoById(showId: number): Promise<ShowModel | null> {
+        return await this.showRepository.getShowInfoById(showId);
+    }
+
+    public async getShowEpisodeList(showId: number): Promise<EpisodeModel[] | null> {
+        return await this.showRepository.getShowEpisodeList(showId);
     }
 
 }

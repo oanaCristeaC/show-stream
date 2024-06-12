@@ -22,6 +22,7 @@ export interface ShowModel {
     externals: ShowExternalsModel;
     image: ShowImageModel;
     summary: string;
+    officialSite: string | null;
     updated: number | null;
     _links: ShowLinksModel;
 }
@@ -33,8 +34,9 @@ type ShowScheduleModel = {
     days: string[];
 }
 
-type RatingsModel = {
+export type RatingsModel = {
     average: number | null;
+    votes?: number;
 }
 
 type ShowNetworkModel = {
@@ -57,17 +59,19 @@ type ShowExternalsModel = {
     imdb: string;
 }
 
-type ShowImageModel = {
+export type ShowImageModel = {
     medium: string;
     original: string;
 }
 
-type ShowLinksModel = {
+export type ShowLinksModel = {
     self: {
         href: string | null;
-    }
+    },
     previousepisode: {
         href: string | null;
+        name: string | null;
+        time?: string | null;
     }
 }
 

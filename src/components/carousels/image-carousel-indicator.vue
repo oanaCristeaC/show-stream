@@ -14,10 +14,10 @@ const emit = defineEmits(['navigate-direction'])
   >
     <img
       v-if="direction === DirectionEnum.Right"
-      src="@/assets/caret-right.svg"
+      src="@/assets/images/caret-right.svg"
       alt="Right indicator"
       class="indicator-icon"
     />
-    <img v-else src="@/assets/caret-left.svg" alt="Left indicator" class="indicator-icon" />
+    <img v-else src="@/assets/images/caret-left.svg" alt="Left indicator" class="indicator-icon" />
   </button>
 </template>

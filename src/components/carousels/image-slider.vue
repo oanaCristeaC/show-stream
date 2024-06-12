@@ -5,6 +5,7 @@ import ImageNotAvailable from '@/components/image-not-available.vue'
 import {ref} from 'vue'
 import type {ShowInfo} from "@/models/show-model";
 import StarRating from "@/components/star-rating.vue";
+import router from "@/router";
 
 const props = defineProps<{
   data:
@@ -32,6 +33,10 @@ const scrollLeft = () => {
     behavior: 'smooth'
   })
 }
+
+const redirectToShowDetails = (showId: number) => {
+  router.push({name: 'show-details', params: {showId}})
+}
 </script>
 
 <template>
@@ -40,6 +45,7 @@ const scrollLeft = () => {
     <div class="flex overflow-x-auto scroll-smooth scrollbar-hide" ref="carouselContainer">
       <div class="flex-none mr-2 flex-shrink-0" v-for="show in props.data"
            :key="show.id">
+        <a @click="redirectToShowDetails(show.id)" class="hover:cursor-pointer">
         <div style="max-height: 295px; max-width: 210px">
           <image-not-available v-if="!show.image || !show.image?.medium" class="w-full h-full object-cover rounded"/>
           <img v-else :src="show.image.medium" :alt="show.name" class="w-full h-full object-cover rounded"/>
@@ -48,8 +54,9 @@ const scrollLeft = () => {
           <p class="font-bold text-center">{{ show.name }}</p>
         </div>
         <div class="h-8 p-2 bg-slate-200 rounded">
-          <star-rating :rating="show.rating.average ?? null" class="text-sm"/>
+          <star-rating :average="show.rating.average ?? null" class="text-sm"/>
         </div>
+        </a>
       </div>
 
     </div>

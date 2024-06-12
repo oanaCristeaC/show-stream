@@ -2,6 +2,7 @@ import type {ShowInfo, ShowModel, ShowsByGenreModel} from "@/models/show-model";
 import {BaseRepository} from "@/api/repository/base-repository";
 import Dexie, {type EntityTable} from 'dexie';
 import {db} from "@/database/indexDB";
+import type {EpisodeModel} from "@/models/episode-model";
 
 export class ShowRepository extends BaseRepository {
     private db: Dexie & { showInfo: EntityTable<ShowInfo, "id">; }
@@ -84,6 +85,35 @@ export class ShowRepository extends BaseRepository {
                 // log the error to a logging service: "Error checking Dexie for records inserted today:", error
                 return false;
             });
+    }
+
+    public async getShowInfoById(showId: number): Promise<ShowModel | null> {
+        try {
+           const showDetails = await this.fetchApi(`/shows/${showId}`);
+              if (!showDetails.ok) {
+                return null;
+              }
+                return await showDetails.json();
+
+        } catch (error) {
+            // log the error to a logging service: "Error fetching show info from Dexie:", error
+            return null;
+        }
+    }
+
+    public async getShowEpisodeList(showId: number): Promise<EpisodeModel[] | null> {
+        try {
+            const showDetails = await this.fetchApi(`/shows/${showId}/episodes`);
+            if (!showDetails.ok) {
+                return null;
+            }
+            console.log('showDetails', showDetails)
+            return await showDetails.json();
+
+        } catch (error) {
+            // log the error to a logging service: "Error fetching show info from Dexie:", error
+            return null;
+        }
     }
 
 }

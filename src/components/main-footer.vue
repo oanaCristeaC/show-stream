@@ -11,7 +11,7 @@ const fullYear = new Date().getFullYear()
         target="_blank"
         aria-label="facebook"
       >
-        <img src="/src/assets/social-media/facebook.svg" alt="facebook" />
+        <img src="@/assets/images/social-media/facebook.svg" alt="facebook" />
       </a>
       <a
         class="social-link pr-3"
@@ -19,7 +19,7 @@ const fullYear = new Date().getFullYear()
         target="_blank"
         aria-label="instagram"
       >
-        <img src="/src/assets/social-media/instagram.svg" alt="instagram" />
+        <img src="@/assets/images/social-media/instagram.svg" alt="instagram" />
       </a>
       <a
         class="social-link pr-3"
@@ -27,10 +27,10 @@ const fullYear = new Date().getFullYear()
         target="_blank"
         aria-label="twitter"
       >
-        <img src="/src/assets/social-media/twitter.svg" alt="twitter" />
+        <img src="@/assets/images/social-media/twitter.svg" alt="twitter" />
       </a>
       <a class="social-link" href="https://www.youtube.com" target="_blank" aria-label="youtube">
-        <img src="/src/assets/social-media/youtube.svg" alt="youtube" />
+        <img src="@/assets/images/social-media/youtube.svg" alt="youtube" />
       </a>
     </div>
 
