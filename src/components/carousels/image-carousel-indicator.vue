@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {DirectionEnum} from "@/enums/direction-enum";
+import { DirectionEnum } from '@/enums/direction-enum'
 
 defineProps<{
   direction: DirectionEnum.Right | DirectionEnum.Left

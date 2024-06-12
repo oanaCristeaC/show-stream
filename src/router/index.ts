@@ -18,8 +18,7 @@ const router = createRouter({
           name: 'show-details',
           path: '/shows/:showId',
           component: () => import('@/views/show-details-view.vue')
-        }
-        ,
+        },
         {
           name: 'shows-genera',
           path: '/shows/genera/:genera',
