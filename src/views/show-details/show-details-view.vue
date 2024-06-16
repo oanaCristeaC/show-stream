@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
-import type { ShowModel } from '@/models/show-model'
+import router from '@/router'
 import { useRoute } from 'vue-router'
 import { useShowDetailsStore } from '@/stores/show-detail-store'
-import StarRating from '@/components/star-rating.vue'
-import type { EpisodeModel } from '@/models/episode-model'
-import router from '@/router'
+import { computed, onMounted } from 'vue'
 import type { ApiResponseModel } from '@/models/api-response-model'
-import { type ErrorModel } from '@/models/errors-model'
+import type { ShowModel } from '@/models/show-model'
+import type { ErrorModel } from '@/models/errors-model'
+import type { EpisodeModel } from '@/models/episode-model'
 import ShowDetailsNoData from '@/views/show-details/components/show-details-no-data.vue'
+import StarRating from '@/components/star-rating.vue'
 
 const {
   params: { showId }
@@ -34,17 +34,17 @@ const redirectToNotFound = () => {
 }
 
 onMounted(async () => {
-  await store.getShowInfoById(Number(showId))
+  await store.getShowInfoById(Number(showId ?? 1))
 
-  await store.getShowEpisodeList(Number(showId))
+  await store.getShowEpisodeList(Number(showId ?? 1))
 })
 </script>
 
 <template>
-  <div v-if="showDetails.loading">
+  <div v-if="showDetails?.loading">
     <show-details-no-data />
   </div>
-  <div class="container mx-auto p-4" v-else-if="showDetails.data">
+  <div class="container mx-auto p-4" v-else-if="showDetails?.data">
     <div class="flex flex-col lg:flex-row">
       <!-- Main Info -->
       <div class="flex-1 lg:w-2/3 p-4">
@@ -128,7 +128,7 @@ onMounted(async () => {
 
     <!--        todo: refactor this part to a component-->
     <!-- Previous Episodes -->
-    <div class="mt-8" v-if="showEpisodeList.data">
+    <div class="mt-8" v-if="showEpisodeList?.data">
       <h2 class="text-2xl font-bold mb-4">Previous Episodes</h2>
       <table class="min-w-full bg-white">
         <thead class="bg-gray-200 text-gray-600">
