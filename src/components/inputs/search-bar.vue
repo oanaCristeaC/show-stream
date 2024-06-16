@@ -1,31 +1,38 @@
 <script setup lang="ts">
-import * as yup from 'yup'
 import { ref } from 'vue'
 import { debounce } from '@/utilities/debounce'
 import router from '@/router'
+import type { ShowModel } from '@/models/show-model'
 
-const suggestions = ref<yup.InferType<any>>([])
-const query = ref<string>('')
+const suggestions = ref<{ show: ShowModel }[]>([])
+const query = ref<string | null>()
 
 const fetchSuggestions = async (event: Event) => {
   const query = (event.target as HTMLInputElement).value
+
+  //todo: move this to the parent component and use the existing fetcher
   const response = await fetch(`https://api.tvmaze.com/search/shows?q=${query}`)
   suggestions.value = await response.json()
 }
 
 const onInput = (event: Event) => {
-  if (query.value.length > 1) {
+  if (query.value !== null) {
     fetchSuggestions(event)
   } else {
     suggestions.value = []
   }
 }
 
-const selectSuggestion = (suggestion: any) => {
-  query.value = suggestion.name
+const navigateToShow = async (showId: any) => {
+  await router.push({ name: 'show-details', params: { showId: showId } })
+  router.go(0) // force reload the page since the route is the same
+}
+
+const selectSuggestion = (suggestion: { show: ShowModel }) => {
+  query.value = null
   suggestions.value = []
 
-  router.push({ name: 'show-details', params: { showId: suggestion?.show?.id } })
+  navigateToShow(suggestion.show.id)
 }
 
 const debouncedOnInput = debounce(onInput, 100)

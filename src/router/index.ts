@@ -12,17 +12,22 @@ const router = createRouter({
         {
           name: 'shows',
           path: '/',
-          component: () => import('@/views/shows-view.vue')
+          component: () => import('@/views/show-list/shows-view.vue')
         },
         {
           name: 'show-details',
           path: '/shows/:showId',
-          component: () => import('@/views/show-details-view.vue')
+          component: () => import('@/views/show-details/show-details-view.vue')
         },
         {
           name: 'shows-genera',
           path: '/shows/genera/:genera',
           component: () => import('@/views/shows-genera-view.vue')
+        },
+        {
+          path: '/:pathMatch(.*)*',
+          name: 'not-found',
+          component: () => import('@/views/not-fount.vue')
         }
       ]
     }

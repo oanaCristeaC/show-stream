@@ -1,5 +1,5 @@
 import { ShowRepository } from '@/api/repository/show-repository'
-import type { ShowInfo, ShowInfoDBModel, ShowModel, ShowsByGenreModel } from '@/models/show-model'
+import type { ShowInfo, ShowModel, ShowsByGenreModel } from '@/models/show-model'
 import { insertInSortedOrder } from '@/utilities/show-info'
 import type { EpisodeModel } from '@/models/episode-model'
 import { ShowGenresEnum } from '@/enums/show-enum'
@@ -13,6 +13,7 @@ export class ShowService {
 
   public async getShowInfoPerPage(page: number): Promise<ShowInfo[] | null> {
     const response = await this.showRepository.fetchShows(page)
+
     if (response !== null) {
       return response.map((show: ShowModel) => {
         return {
@@ -51,6 +52,18 @@ export class ShowService {
     return showsInfo
   }
 
+  private getOnlyCategoriesWithMinimumShows(showsByGenre: ShowsByGenreModel, minimumShows: number) {
+    const showsByGenreWithMinimumShows: ShowsByGenreModel = {}
+
+    Object.keys(showsByGenre).forEach((genre) => {
+      if (showsByGenre[genre].length >= minimumShows) {
+        showsByGenreWithMinimumShows[genre] = showsByGenre[genre]
+      }
+    })
+
+    return showsByGenreWithMinimumShows
+  }
+
   /**
    * Initially use sorted data from memory
    */
@@ -72,7 +85,7 @@ export class ShowService {
         // showsByGenre[genre].push(show);
       })
     })
-    return showsByGenre
+    return this.getOnlyCategoriesWithMinimumShows(showsByGenre, 5)
   }
 
   /**
@@ -124,7 +137,7 @@ export class ShowService {
     genera: ShowGenresEnum,
     page: number,
     pageSize: number
-  ): Promise<ShowInfoDBModel[] | null> {
+  ): Promise<ShowInfo[] | null> {
     return await this.showRepository.getAllShowsInfoFromDb(genera, page, pageSize)
   }
 
@@ -133,21 +146,34 @@ export class ShowService {
   }
 
   public async getShowEpisodeList(showId: number): Promise<EpisodeModel[] | null> {
-    if (showId === null) {
-      return null
+    const data = await this.showRepository.getShowEpisodeList(showId)
+
+    if (data !== null && data.length > 0) {
+      // todo: make a utility function for sorting
+      return data.sort((a, b) => {
+        const dateA = a.airstamp ? new Date(a.airstamp).getTime() : 0
+        const dateB = b.airstamp ? new Date(b.airstamp).getTime() : 0
+        return dateB - dateA
+      })
     }
 
-    const result = await this.showRepository.getShowEpisodeList(showId)
+    return data
+  }
 
-    if (result === null) {
-      return null
+  public async getRemainingGenreWithShowsFromDB(loadedCategories: string[]) {
+    const getAllGenres = await this.showRepository.getAllGenres()
+    const loadedCategoriesToLowCase: string[] = loadedCategories.map((genre) => genre.toLowerCase())
+
+    const remainingGenres = getAllGenres.filter(
+      (genre: string) => !loadedCategoriesToLowCase.includes(genre.toLowerCase())
+    )
+
+    const showsByGenre: ShowsByGenreModel = {}
+
+    for (const genre of remainingGenres) {
+      showsByGenre[genre] = (await this.getAllShowsInfo(genre, 1, 5)) ?? []
     }
 
-    // todo: make a utility function for sorting
-    return result.sort((a, b) => {
-      const dateA = a.airstamp ? new Date(a.airstamp).getTime() : 0
-      const dateB = b.airstamp ? new Date(b.airstamp).getTime() : 0
-      return dateB - dateA
-    })
+    return showsByGenre
   }
 }

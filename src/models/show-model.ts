@@ -87,3 +87,7 @@ export type ShowLinksModel = {
 export interface ShowsByGenreModel {
   [genres: string]: ShowInfo[]
 }
+
+export type ShowsByGenreDBModel = {
+  [genres: string]: ShowInfoDBModel[]
+}

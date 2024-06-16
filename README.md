@@ -51,14 +51,33 @@ I have used the following libraries:
   - same as ESLint
 
 
-I used the following:
-    - repository pattern to interact with data
-    - services to interact with the API and process business logic
-    - components to display the data
-        - I have tried to create reusable components, but I have not been able to do it as much as I would like
-    - router to navigate between pages
-    - store to manage the state of the application (pina)
 
-I havent gotten time to implement tests, I wanted to use Vue Test Utils and Vitest to test the components and services.
 
-Note: as the api didnt give possibility to search and filter I use IndexDb and in memory data
+## I used the following:
+
+- Repository pattern to interact with data
+- Services to process business logic
+- Components to display the data
+- Router to navigate between pages
+- Store to manage the state of the application (Pinia)
+
+
+### Note:
+
+Since the data loading was changing, I have chosen to load in memory a few pages.
+The number of pages could be fewer or more, depending on the data that is loaded. I have chosen to load 5 pages, but it could have been fewer to speed up the loading time.
+
+While the user is scrolling, the app in the background is storing all the data in IndexedDB.
+
+I could have added a server to check if the pages already exist in IndexedDB and if so, load these instead of making the API request for the first pages.
+
+I could therefore store all the genres in IndexedDB and check if the genre (I saw I misspelled it).
+
+There is a lot of other things that should be improved:
+- Add more tests
+- Add more reusable components
+- Add more loading
+- Check if the data is already in IndexedDB
+- Add more error handling
+
+

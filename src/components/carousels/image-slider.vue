@@ -3,7 +3,7 @@ import ImageCarouselIndicator from '@/components/carousels/image-carousel-indica
 import { DirectionEnum } from '@/enums/direction-enum'
 import ImageNotAvailable from '@/components/image-not-available.vue'
 import { ref } from 'vue'
-import type { ShowInfo, ShowInfoDBModel } from '@/models/show-model'
+import type { ShowInfo } from '@/models/show-model'
 import StarRating from '@/components/star-rating.vue'
 import router from '@/router'
 

@@ -1,4 +1,4 @@
-import type { ShowInfo, ShowInfoDBModel, ShowModel, ShowsByGenreModel } from '@/models/show-model'
+import type { ShowInfo, ShowInfoDBModel, ShowModel } from '@/models/show-model'
 import { BaseRepository } from '@/api/repository/base-repository'
 import Dexie, { type EntityTable } from 'dexie'
 import { db } from '@/database/indexDB'
@@ -15,13 +15,7 @@ export class ShowRepository extends BaseRepository {
 
   public async fetchShows(page: number): Promise<ShowModel[] | null> {
     try {
-      const response = await this.fetchApi(`/shows?page=${page}`)
-
-      if (!response.ok) {
-        return null
-      }
-
-      return await response.json()
+      return await this.fetchRequest(`/shows?page=${page}`)
     } catch (error) {
       // log the error to a logging service: "Error fetching shows from API:", error
       return null
@@ -43,15 +37,22 @@ export class ShowRepository extends BaseRepository {
     genre: ShowGenresEnum,
     page: number,
     pageSize: number
-  ): Promise<ShowInfoDBModel[] | null> {
+  ): Promise<ShowInfo[] | null> {
     try {
-      const offset = (page - 1) * pageSize
+      const shows = await db.showInfoDBModel.toArray()
 
-      return await this.db.showInfoDBModel
-        .filter((show) => new RegExp(genre, 'i').test(show.genres))
-        .offset(offset)
-        .limit(pageSize)
-        .toArray()
+      // Parse the JSON fields for each show
+      const parsedShows = shows.map((show) => ({
+        ...show,
+        genres: JSON.parse(show.genres),
+        image: JSON.parse(show.image),
+        rating: JSON.parse(show.rating)
+      }))
+
+      const filteredShows = parsedShows.filter((show) => new RegExp(genre, 'i').test(show.genres))
+
+      const offset = (page - 1) * pageSize
+      return filteredShows.slice(offset, offset + pageSize)
     } catch (error) {
       // log the error to a logging service: console.error('Error fetching shows by genre:', error);
       return null
@@ -76,28 +77,35 @@ export class ShowRepository extends BaseRepository {
       })
   }
 
-  public async getShowInfoById(showId: number): Promise<ShowModel | null> {
+  public async getShowInfoById(showId: number): Promise<any> {
     try {
-      const showDetails = await this.fetchApi(`/shows/${showId}`)
-      if (!showDetails.ok) {
-        return null
-      }
-      return await showDetails.json()
+      return await this.fetchRequest(`/shows/${showId}`)
     } catch (error) {
-      // log the error to a logging service: "Error fetching show info from Dexie:", error
-      return null
+      // log the error to a logging service: "Error fetching show info:", error
+      throw error
     }
   }
 
   public async getShowEpisodeList(showId: number): Promise<EpisodeModel[] | null> {
     try {
-      const showDetails = await this.fetchApi(`/shows/${showId}/episodes`)
-      if (!showDetails.ok) {
-        return null
-      }
-      return await showDetails.json()
+      return await this.fetchRequest(`/shows/${showId}/episodes`)
     } catch (error) {
       // log the error to a logging service: "Error fetching show info from Dexie:", error
+      throw error
+    }
+  }
+
+  // todo: refactor this function store the genres in a separate table
+  public async getAllGenres(): Promise<any> {
+    try {
+      const uniqueKeys = await this.db.showInfoDBModel.orderBy('genres').uniqueKeys()
+
+      // Parse each JSON string and convert to array of strings
+      const parsedArrays: string[][] = uniqueKeys.map((str) => JSON.parse(str as string))
+
+      return [...new Set(parsedArrays.flat())]
+    } catch (error) {
+      // log the error to a logging service: "Error fetching genres from API:", error
       return null
     }
   }
