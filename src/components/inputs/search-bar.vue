@@ -25,7 +25,8 @@ const onInput = (event: Event) => {
 
 const navigateToShow = async (showId: any) => {
   await router.push({ name: 'show-details', params: { showId: showId } })
-  router.go(0) // force reload the page since the route is the same
+  window.location.reload()
+  //router.go(0) // force reload the page since the route is the same
 }
 
 const selectSuggestion = (suggestion: { show: ShowModel }) => {
