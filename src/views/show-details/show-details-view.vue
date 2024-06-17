@@ -48,7 +48,7 @@ onMounted(async () => {
       <!-- Main Info -->
       <div class="flex-1 lg:w-2/3 p-4">
         <h1 class="text-4xl font-bold mb-4">{{ showDetails.data?.name }}</h1>
-        <div class="flex">
+        <div class="flex flex-col md:flex-row">
           <img
             v-if="showDetails.data?.image?.original"
             :src="showDetails.data?.image.original"
