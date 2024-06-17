@@ -2,8 +2,12 @@
 export default [
     {
         rules: {
-            semi: "error",
-            "prefer-const": "error"
-        }
+            semi: ["error", "never"],
+
+        },
+        ignores: [
+            "*config*",
+            "dist/**",
+        ]
     }
 ];
