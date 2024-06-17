@@ -10,7 +10,8 @@ const query = ref<string | null>()
 const fetchSuggestions = async (event: Event) => {
   const query = (event.target as HTMLInputElement).value
 
-  //todo: move this to the parent component and use the existing fetcher
+  //todo:
+  // - move this to the parent component and use the existing fetcher
   const response = await fetch(`https://api.tvmaze.com/search/shows?q=${query}`)
   suggestions.value = await response.json()
 }

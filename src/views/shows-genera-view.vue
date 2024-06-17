@@ -41,7 +41,7 @@ const loadMore = async () => {
     <!-- Add flex container here -->
     <div class="flex flex-wrap -mx-2">
       <div
-        class="mr-2 mb-4 p-2"
+        class="md:mr-2 mb-4 p-2"
         style="max-width: 210px"
         v-for="show in allShowsByGenre"
         :key="show.id"

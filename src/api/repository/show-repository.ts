@@ -51,6 +51,9 @@ export class ShowRepository extends BaseRepository {
 
       const filteredShows = parsedShows.filter((show) => new RegExp(genre, 'i').test(show.genres))
 
+      // sort the shows by rating in descending order
+      filteredShows.sort((a, b) => b.rating.average - a.rating.average)
+
       const offset = (page - 1) * pageSize
       return filteredShows.slice(offset, offset + pageSize)
     } catch (error) {

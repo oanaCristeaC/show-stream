@@ -48,26 +48,27 @@ onMounted(async () => {
       <!-- Main Info -->
       <div class="flex-1 lg:w-2/3 p-4">
         <h1 class="text-4xl font-bold mb-4">{{ showDetails.data?.name }}</h1>
-        <div class="flex flex-col md:flex-row">
+        <div class="flex flex-col lg:flex-row">
+          <!--        todo: make image card component-->
           <img
             v-if="showDetails.data?.image?.original"
             :src="showDetails.data?.image.original"
             :alt="showDetails.data?.name ?? ''"
-            class="w-1/3 h-auto mr-4"
+            class="md:w-1/2 lg:w-1/3 h-auto md:mr-4 mb-4 lg:mb-0 rounded"
           />
 
           <img
             v-else-if="showDetails.data?.image?.medium"
             :src="showDetails.data?.image.medium"
             alt="The Boys"
-            class="w-1/3 h-auto mr-4"
+            class="w-1/3 h-auto mr-4 rounded"
           />
 
           <img
             v-else
             src="../../assets/images/image-placeholder.jpeg"
             alt="Image placeholder"
-            class="w-1/3 h-auto mr-4"
+            class="w-1/3 h-auto mr-4 rounded"
           />
 
           <div>
