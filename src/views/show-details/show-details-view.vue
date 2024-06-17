@@ -29,13 +29,15 @@ const showEpisodeList = computed<ApiResponseModel<EpisodeModel[], ErrorModel>>(
 )
 
 const redirectToNotFound = () => {
-  // todo: implement redirect to not found page
+  router.push({ name: 'not-found' })
 }
 
 onMounted(async () => {
-  await store.getShowInfoById(Number(showId ?? 1))
+  await store.getShowInfoById(Number(showId))
 
-  await store.getShowEpisodeList(Number(showId ?? 1))
+  if (showDetails.value && showDetails.value.data) {
+    await store.getShowEpisodeList(Number(showId))
+  }
 })
 </script>
 
@@ -43,6 +45,7 @@ onMounted(async () => {
   <div v-if="showDetails?.loading">
     <show-details-no-data />
   </div>
+
   <div class="container mx-auto p-4" v-else-if="showDetails?.data">
     <div class="flex flex-col lg:flex-row">
       <!-- Main Info -->
