@@ -29,7 +29,7 @@ const showEpisodeList = computed<ApiResponseModel<EpisodeModel[], ErrorModel>>(
 )
 
 const redirectToNotFound = () => {
-  router.replace({ name: 'not-found' })
+  // todo: implement redirect to not found page
 }
 
 onMounted(async () => {

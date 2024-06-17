@@ -23,11 +23,6 @@ const router = createRouter({
           name: 'shows-genera',
           path: '/shows/genera/:genera',
           component: () => import('@/views/shows-genera-view.vue')
-        },
-        {
-          path: '/:pathMatch(.*)*',
-          name: 'not-found',
-          component: () => import('@/views/not-fount.vue')
         }
       ]
     }
