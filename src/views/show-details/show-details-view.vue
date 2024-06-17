@@ -10,9 +10,8 @@ import type { EpisodeModel } from '@/models/episode-model'
 import ShowDetailsNoData from '@/views/show-details/components/show-details-no-data.vue'
 import StarRating from '@/components/star-rating.vue'
 
-const {
-  params: { showId }
-} = useRoute()
+const route = useRoute()
+const showId = route.params.showId
 
 const store = useShowDetailsStore()
 
@@ -30,7 +29,7 @@ const showEpisodeList = computed<ApiResponseModel<EpisodeModel[], ErrorModel>>(
 )
 
 const redirectToNotFound = () => {
-  router.push({ name: 'not-found' })
+  router.replace({ name: 'not-found' })
 }
 
 onMounted(async () => {

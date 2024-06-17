@@ -24,7 +24,7 @@ const onInput = (event: Event) => {
 }
 
 const navigateToShow = async (showId: any) => {
-  await router.push({ name: 'show-details', params: { showId: showId } })
+  await router.replace({ name: 'show-details', params: { showId: showId } })
   window.location.reload()
   //router.go(0) // force reload the page since the route is the same
 }
